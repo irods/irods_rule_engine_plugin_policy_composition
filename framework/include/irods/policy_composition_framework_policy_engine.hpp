@@ -98,10 +98,12 @@ namespace irods::policy_composition::policy_engine
 				return;
 			}
 
-			addRErrorMsg(&policy_context.rei->rsComm->rError, 0, _msg.dump(4).c_str());
+			addRErrorMsg(
+				&policy_context.rei->rsComm->rError,
+				0,
+				_msg.dump(4, ' ', false, json::error_handler_t::replace).c_str());
 
-			rodsLog(LOG_NOTICE, "%s", _msg.dump(4).c_str());
-
+			logger::info("{}: {}", __func__, _msg.dump(4, ' ', false, json::error_handler_t::replace));
 		} // details
 
 		error
@@ -155,36 +157,35 @@ namespace irods::policy_composition::policy_engine
 
 					if (!err.ok()) {
 						// support for stop_on_error behavior
-						*out_variable = pc::error_to_json(err).dump(4);
+						*out_variable = pc::error_to_json(err).dump(4, ' ', false, json::error_handler_t::replace);
 
 						addRErrorMsg(&rei->rsComm->rError, err.code(), err.result().c_str());
 
 						if (log_errors) {
-							irods::log(err);
+							logger::error("{}: {}", __func__, err.result());
 						}
 
 						THROW(err.code(), err.result());
 					}
 				}
 			}
-			// TODO :: add more context to these errors for the user
 			catch (const std::invalid_argument& _e) {
 				if (log_errors) {
-					irods::log(err);
+					logger::error("{}: invalid argument exception [{}]", __func__, _e.what());
 				}
 				pc::exception_to_rerror(SYS_NOT_SUPPORTED, _e.what(), rei->rsComm->rError);
 				return ERROR(SYS_NOT_SUPPORTED, _e.what());
 			}
 			catch (const boost::bad_any_cast& _e) {
 				if (log_errors) {
-					irods::log(err);
+					logger::error("{}: bad any cast exception [{}]", __func__, _e.what());
 				}
 				pc::exception_to_rerror(SYS_NOT_SUPPORTED, _e.what(), rei->rsComm->rError);
 				return ERROR(SYS_NOT_SUPPORTED, _e.what());
 			}
 			catch (const exception& _e) {
 				if (log_errors) {
-					irods::log(err);
+					logger::error("{}: exception caught [{}]", __func__, _e.client_display_what());
 				}
 				pc::exception_to_rerror(_e, rei->rsComm->rError);
 				return ERROR(SYS_NOT_SUPPORTED, _e.what());
@@ -192,14 +193,14 @@ namespace irods::policy_composition::policy_engine
 			catch (const json::exception& _e) {
 				addRErrorMsg(&rei->rsComm->rError, SYS_NOT_SUPPORTED, _e.what());
 				if (log_errors) {
-					rodsLog(LOG_ERROR, "%s", _e.what());
+					logger::error("{}: json exception [{}]", __func__, _e.what());
 				}
 				return ERROR(SYS_NOT_SUPPORTED, _e.what());
 			}
 			catch (...) {
-				auto msg = "policy_engine :: an unknown error has occurred.";
-				addRErrorMsg(&rei->rsComm->rError, SYS_NOT_SUPPORTED, msg);
-				rodsLog(LOG_ERROR, msg);
+				const std::string msg{"policy_engine :: an unknown error has occurred."};
+				addRErrorMsg(&rei->rsComm->rError, SYS_NOT_SUPPORTED, msg.c_str());
+				logger::error("{}: {}", __func__, msg);
 				return ERROR(SYS_NOT_SUPPORTED, msg);
 			}
 

@@ -1,4 +1,4 @@
-
+#include <irods/policy_composition_framework_logging_category.hpp>
 #include <irods/policy_composition_framework_utilities.hpp>
 #include <irods/policy_composition_framework_parameter_capture.hpp>
 
@@ -13,7 +13,9 @@
 #include "boost/lexical_cast.hpp"
 #include "fmt/format.h"
 
+#undef IRODS_METADATA_ENABLE_SERVER_SIDE_API
 #define IRODS_METADATA_ENABLE_SERVER_SIDE_API
+
 #include <irods/metadata.hpp>
 
 #include <boost/regex.hpp>
@@ -66,7 +68,7 @@ namespace irods::policy_composition
 				return std::string{static_cast<char*>(msp->inOutStruct)};
 			}
 			else {
-				rodsLog(LOG_ERROR, "not a string type [%s]", msp->type);
+				logger::error("{}: not a string type [{}]", __func__, msp->type);
 			}
 		}
 
@@ -88,7 +90,7 @@ namespace irods::policy_composition
 
 	void json_to_rerror(const json& _msg, rError_t& _error)
 	{
-		addRErrorMsg(&_error, 0, _msg.dump(4).c_str());
+		addRErrorMsg(&_error, 0, _msg.dump(4, ' ', false, json::error_handler_t::replace).c_str());
 	} // json_to_rerror
 
 	void exception_to_rerror(const irods::exception& _exception, rError_t& _error)
@@ -648,7 +650,10 @@ namespace irods::policy_composition
 			}
 
 			if (!policy.contains(kw::policy_to_invoke)) {
-				rodsLog(LOG_ERROR, "%s - missing  policy_to_invoke key <%s>", policy.dump(4).c_str());
+				logger::error(
+					"{}: missing policy_to_invoke key [{}]",
+					__func__,
+					policy.dump(4, ' ', false, json::error_handler_t::replace));
 				continue;
 			}
 
@@ -690,8 +695,8 @@ namespace irods::policy_composition
 							continue;
 						}
 
-						std::string params{pam.dump()};
-						std::string config{cfg.dump()};
+						std::string params{pam.dump(-1, ' ', false, json::error_handler_t::replace)};
+						std::string config{cfg.dump(-1, ' ', false, json::error_handler_t::replace)};
 						std::string out{};
 
 						args.clear();

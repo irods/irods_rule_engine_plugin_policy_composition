@@ -51,7 +51,7 @@ irods::error example_policy(const pe::context& ctx, pe::arg_type out)
 
 	*out = "Hello, World! from the example policy engine";
 
-	rodsLog(LOG_NOTICE, "[%s]::[%s]", ctx.instance_name.c_str(), ctx.policy_name.c_str());
+	irods::policy_composition::logger::info("{}: [{}]::[{}]", __func__, ctx.instance_name, ctx.policy_name);
 	return SUCCESS();
 } // example_policy
 

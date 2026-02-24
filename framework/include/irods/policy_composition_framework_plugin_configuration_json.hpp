@@ -1,12 +1,15 @@
 #ifndef IRODS_POLICY_COMPOSITION_FRAMEWORK_PLUGIN_CONFIGURATION_JSON_HPP
 #define IRODS_POLICY_COMPOSITION_FRAMEWORK_PLUGIN_CONFIGURATION_JSON_HPP
 
+#include <fstream>
 #include <string>
 #include <vector>
 
 #include <irods/rcMisc.h>
 #include <irods/irods_get_full_path_for_config_file.hpp>
 #include <irods/irods_server_properties.hpp>
+
+#include <irods/policy_composition_framework_logging_category.hpp>
 
 #include <nlohmann/json.hpp>
 
@@ -21,15 +24,17 @@ namespace irods
 			std::string cfg_file{};
 			error ret = get_full_path_for_config_file(SERVER_CONFIG_FILE, cfg_file);
 			if (!ret.ok()) {
-				rodsLog(LOG_NOTICE, "get_full_path_for_config_file failed for server_config");
+				irods::policy_composition::logger::info(
+					"{}: get_full_path_for_config_file failed for server_config", __func__);
 				return {};
 			}
 
-			rodsLog(LOG_DEBUG, "[%s] Loading [%s]", _instance_name.c_str(), cfg_file.c_str());
+			irods::policy_composition::logger::debug("{}: {} Loading {}", __func__, _instance_name, cfg_file);
 
 			std::ifstream ifn(cfg_file.c_str());
 			if (!ifn.is_open()) {
-				rodsLog(LOG_ERROR, "[%s] failed to open [%s]", _instance_name.c_str(), cfg_file.c_str());
+				irods::policy_composition::logger::error(
+					"{}: [{}] failed to open [{}].", __func__, _instance_name, cfg_file);
 				return {};
 			}
 
@@ -38,13 +43,15 @@ namespace irods
 			ifn.close();
 
 			if (server_config.empty()) {
-				rodsLog(LOG_ERROR, "[%s] empty server config json object", _instance_name.c_str());
+				irods::policy_composition::logger::error(
+					"{}: [{}] empty server config json object", __func__, _instance_name);
 				return {};
 			}
 
 			auto reps = server_config["plugin_configuration"]["rule_engines"];
 			if (reps.empty()) {
-				rodsLog(LOG_ERROR, "[%s] empty rule engine plugin json array", _instance_name.c_str());
+				irods::policy_composition::logger::error(
+					"{}: [{}] empty rule engine plugin json array", __func__, _instance_name);
 				return {};
 			}
 
@@ -55,10 +62,10 @@ namespace irods
 			}
 		}
 		catch (const json::exception& e) {
-			rodsLog(
-				LOG_ERROR,
-				"[%s] Exception Caught parsing JSON configuration for plugin instance [%s]",
-				_instance_name.c_str(),
+			irods::policy_composition::logger::error(
+				"{}: [{}] Exception caught parsing JSON configuration for plugin instance [{}]",
+				__func__,
+				_instance_name,
 				e.what());
 		}
 

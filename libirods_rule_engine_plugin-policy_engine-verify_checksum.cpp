@@ -100,7 +100,8 @@ namespace
 
 		if (!catalog_checksum.empty() && catalog_checksum != computed_checksum) {
 			const auto msg = fmt::format(
-				"checksum mismatch for [{}] on resource [{}] computed [{}] catalog [{}]",
+				"{}: checksum mismatch for [{}] on resource [{}] computed [{}] catalog [{}]",
+				__func__,
 				logical_path,
 				source_resource,
 				computed_checksum,
@@ -108,7 +109,7 @@ namespace
 
 			const auto le = pe::get_log_errors_flag(ctx.parameters, ctx.configuration);
 			if (le) {
-				rodsLog(LOG_ERROR, msg.c_str());
+				pc::logger::error(msg);
 			}
 
 			return ERROR(USER_CHKSUM_MISMATCH, msg);

@@ -54,7 +54,7 @@ namespace
 			     {"2.query_limit", query_limit},
 			     {"3.query_type", query_type_string},
 			     {"4.query_string", query_string},
-			     {"5.policies_to_invoke", policies_to_invoke.dump(4)},
+			     {"5.policies_to_invoke", policies_to_invoke.dump(4, ' ', false, json::error_handler_t::replace)},
 			     {"6.stop_on_error", stop_on_error}});
 
 			if (query_string.empty()) {
@@ -135,7 +135,11 @@ namespace
 			}
 
 			pe::client_message(
-				{{"0.message", fmt::format("{} params_to_pass {}", ctx.policy_name, params_to_pass.dump(4))}});
+				{{"0.message",
+			      fmt::format(
+					  "{} params_to_pass {}",
+					  ctx.policy_name,
+					  params_to_pass.dump(4, ' ', false, json::error_handler_t::replace))}});
 
 			auto job = [&](const result_row& _results) {
 				// capture the row of results from the query
@@ -170,8 +174,8 @@ namespace
 
 					auto pnm = policy.at(kw::policy_to_invoke).get<std::string>();
 
-					std::string params{pam.dump()};
-					std::string config{cfg.dump()};
+					std::string params{pam.dump(-1, ' ', false, json::error_handler_t::replace)};
+					std::string config{cfg.dump(-1, ' ', false, json::error_handler_t::replace)};
 					std::string out{};
 
 					args.clear();
@@ -198,7 +202,7 @@ namespace
 
 			if (errors.size() > 0) {
 				for (auto& e : errors) {
-					rodsLog(LOG_ERROR, "query failed [%d]::[%s]", std::get<0>(e), std::get<1>(e).c_str());
+					pc::logger::error("{}: query failed [{}]::[{}]", __func__, std::get<0>(e), std::get<1>(e));
 				}
 
 				return ERROR(

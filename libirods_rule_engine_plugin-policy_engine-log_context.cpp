@@ -20,8 +20,11 @@ namespace
 
 	irods::error log_context(const pe::context& ctx, pe::arg_type out)
 	{
-		std::cout << "PARAMETERS:    [" << ctx.parameters.dump(4) << "]\n";
-		std::cout << "CONFIGURATION: [" << ctx.configuration.dump(4) << "]\n";
+		pc::logger::debug(
+			"{}: PARAMETERS: [{}]\nCONFIGURATION: [{}]",
+			__func__,
+			ctx.parameters.dump(4, ' ', false, json::error_handler_t::replace),
+			ctx.configuration.dump(4, ' ', false, json::error_handler_t::replace));
 
 		return SUCCESS();
 

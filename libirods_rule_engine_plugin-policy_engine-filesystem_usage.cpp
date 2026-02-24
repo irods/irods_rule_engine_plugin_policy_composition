@@ -48,16 +48,12 @@ namespace
 
 		boost::filesystem::path path_to_stat{vault_path};
 		while (!boost::filesystem::exists(path_to_stat)) {
-			rodsLog(
-				LOG_NOTICE,
-				"[%s]: path to stat [%s] doesn't exist, moving to parent",
-				__FUNCTION__,
-				path_to_stat.string().c_str());
+			pc::logger::info("{}: path to stat [{}] doesn't exist, moving to parent", __func__, path_to_stat.c_str());
 			path_to_stat = path_to_stat.parent_path();
 			if (path_to_stat.empty()) {
-				auto msg = fmt::format(
-					"[{}]: could not find existing path from given path path [{}]", __FUNCTION__, vault_path.c_str());
-				rodsLog(LOG_ERROR, msg.c_str());
+				auto msg =
+					fmt::format("{}: could not find existing path from given path path [{}]", __func__, vault_path);
+				pc::logger::error(msg);
 				return ERROR(SYS_INVALID_RESC_INPUT, msg);
 			}
 		}
