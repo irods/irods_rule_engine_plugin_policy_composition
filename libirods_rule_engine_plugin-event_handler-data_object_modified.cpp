@@ -181,7 +181,7 @@ namespace
 			objects_in_flight[l1_idx] = obj;
 		}
 		catch (const irods::exception& _e) {
-			rodsLog(LOG_DEBUG, "irods::get_index_and_resource_from_obj_inp failed for [%s]", inp->objPath);
+			pc::logger::debug("{}: irods::get_index_and_resource_from_obj_inp failed for [{}]", __func__, inp->objPath);
 		}
 
 		if (inp->openFlags & O_TRUNC) {

@@ -2,6 +2,7 @@
 #define IRODS_POLICY_COMPOSITION_FRAMEWORK_UTILITIES_HPP
 
 #include "policy_composition_framework_keywords.hpp"
+#include <irods/policy_composition_framework_logging_category.hpp>
 
 #include <irods/irods_re_plugin.hpp>
 #include <irods/irods_exception.hpp>

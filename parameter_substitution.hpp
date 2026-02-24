@@ -2,8 +2,11 @@
 #include <string>
 #include <boost/lexical_cast.hpp>
 
+#include <irods/policy_composition_framework_logging_category.hpp>
 #include <irods/irods_resource_manager.hpp>
 #include <irods/irods_query.hpp>
+
+#define IRODS_FILESYSTEM_ENABLE_SERVER_SIDE_API
 #include <irods/filesystem.hpp>
 
 extern irods::resource_manager resc_mgr;
@@ -42,7 +45,7 @@ namespace irods::policy_composition::policy_engine
 			{seconds_since_epoch, 7}};
 	}; //namespace tokens
 
-	inline auto paramter_requires_query_substitution(const json& param) -> bool
+	inline auto paramter_requires_query_substitution(const nlohmann::json& param) -> bool
 	{
 		if (param.is_string()) {
 			return param.get<std::string>().find(tokens::query_substitution) != std::string::npos;
@@ -76,7 +79,7 @@ namespace irods::policy_composition::policy_engine
 		resource_ptr root_resc;
 		error err = resc_mgr.resolve(resc_name, root_resc);
 		if (!err.ok()) {
-			rodsLog(LOG_ERROR, "Failed to compute leaf bundle for [%s]", resc_name.c_str());
+			logger::error("{}: Failed to compute leaf bundle for [{}]", __func__, resc_name);
 			return std::string{};
 		}
 
@@ -113,11 +116,11 @@ namespace irods::policy_composition::policy_engine
 				try {
 					auto end = query_string.find(suffix, start + prefix.size());
 					if (std::string::npos == end) {
-						rodsLog(
-							LOG_ERROR,
-							"Missing ending [%s] for query substitution [%s] at [%ld]",
-							suffix.c_str(),
-							query_string.c_str(),
+						logger::error(
+							"{}: Missing ending [{}] for query substitution [{}] at [{}]",
+							__func__,
+							suffix,
+							query_string,
 							start);
 						return;
 					}
@@ -135,7 +138,7 @@ namespace irods::policy_composition::policy_engine
 					start = end + suffix.size();
 				}
 				catch (const std::out_of_range& _e) {
-					rodsLog(LOG_ERROR, "%s caught out of range for replace", __FUNCTION__);
+					logger::error("{}: caught out of range for replace", __func__);
 					return;
 				}
 			}
@@ -143,7 +146,8 @@ namespace irods::policy_composition::policy_engine
 	} // parse_and_replace_query_string_tokens
 
 	template <typename T>
-	auto perform_query_substitution(rsComm_t& comm, const json& param, const std::vector<std::string>& values) -> T
+	auto perform_query_substitution(rsComm_t& comm, const nlohmann::json& param, const std::vector<std::string>& values)
+		-> T
 	{
 		const auto delim = std::string{")"};
 		auto str = param.get<std::string>();
@@ -174,7 +178,8 @@ namespace irods::policy_composition::policy_engine
 
 	} // perform_query_substitution
 
-	inline void replace_query_string_token(std::string& query_string, const std::string& token, const std::string& value)
+	inline void
+	replace_query_string_token(std::string& query_string, const std::string& token, const std::string& value)
 	{
 		std::string tmp_val{value};
 		if (tokens::source_leaf_bundle == token || tokens::destination_leaf_bundle == token) {

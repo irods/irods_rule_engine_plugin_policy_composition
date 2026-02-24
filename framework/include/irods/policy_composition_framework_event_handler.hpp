@@ -50,7 +50,8 @@ namespace irods::policy_composition::event_handler
 		const std::string resource{"resource"};
 	} // namespace interfaces
 
-	inline auto register_handler(const std::string& _operation, const std::string& _interface, handler_type _handler) -> void
+	inline auto register_handler(const std::string& _operation, const std::string& _interface, handler_type _handler)
+		-> void
 	{
 		const std::string prefix{"pep"}, sep{"_"};
 		const std::string stem{prefix + sep + _interface + sep + _operation + sep};
@@ -207,7 +208,7 @@ namespace irods::policy_composition::event_handler
 
 	} // namespace
 
-	inline plugin_pointer_type make(const std::string& _plugin_name, const std::string& _context)
+	inline plugin_pointer_type make(const std::string& _plugin_name, [[maybe_unused]] const std::string& _context)
 	{
 		auto rule_engine_plugin = new plugin_type(_plugin_name, "");
 

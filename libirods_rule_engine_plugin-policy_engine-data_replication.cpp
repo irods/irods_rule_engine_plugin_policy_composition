@@ -134,10 +134,10 @@ namespace
 			auto src_dst_map{ctx.configuration.at("source_to_destination_map")};
 
 			if (!src_dst_map.contains(source_resource)) {
-				rodsLog(
-					LOG_NOTICE,
-					"irods_policy_data_replication - source resource is not present in map [%s]",
-					source_resource.c_str());
+				pc::logger::info(
+					"{}: irods_policy_data_replication - source resource is not present in map [{}]",
+					__func__,
+					source_resource);
 				return SUCCESS();
 			}
 

@@ -5,6 +5,7 @@
 
 #include <irods/rsModAVUMetadata.hpp>
 
+#undef IRODS_METADATA_ENABLE_SERVER_SIDE_API
 #define IRODS_METADATA_ENABLE_SERVER_SIDE_API
 #include <irods/metadata.hpp>
 
@@ -46,7 +47,10 @@ namespace
 	{
 		std::string user_name{}, logical_path{}, source_resource{}, destination_resource{};
 
-		rodsLog(LOG_NOTICE, "PARAMETERS\n--------\n%s\n--------", ctx.parameters.dump(4).c_str());
+		pc::logger::info(
+			"{}: PARAMETERS\n--------\n{}\n--------",
+			__func__,
+			ctx.parameters.dump(4, ' ', false, json::error_handler_t::replace));
 
 		if (ctx.parameters.contains("query_results")) {
 			using fsp = irods::experimental::filesystem::path;
