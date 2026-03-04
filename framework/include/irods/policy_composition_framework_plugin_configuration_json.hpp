@@ -15,7 +15,7 @@ namespace irods
 
 	using json = nlohmann::json;
 
-	auto get_plugin_specific_configuration(const std::string& _instance_name) -> json
+	inline auto get_plugin_specific_configuration(const std::string& _instance_name) -> json
 	{
 		try {
 			std::string cfg_file{};

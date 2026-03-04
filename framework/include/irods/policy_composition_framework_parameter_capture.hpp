@@ -37,11 +37,11 @@ namespace
 	{
 	} tag_last_resc;
 
-	auto parse_hierarchy(const irods::hierarchy_parser& _p, TagFirstResc)
+	inline auto parse_hierarchy(const irods::hierarchy_parser& _p, TagFirstResc)
 	{
 		return _p.first_resc();
 	}
-	auto parse_hierarchy(const irods::hierarchy_parser& _p, TagLastResc)
+	inline auto parse_hierarchy(const irods::hierarchy_parser& _p, TagLastResc)
 	{
 		return _p.last_resc();
 	}
@@ -131,7 +131,7 @@ namespace
 
 	} // extract_array_parameters
 
-	auto
+	inline auto
 	get_metadata_for_resource(rsComm_t* _comm, const std::string& _meta_attr_name, const std::string& _resource_name)
 	{
 		std::string query_str{boost::str(
