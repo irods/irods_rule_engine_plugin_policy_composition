@@ -42,7 +42,7 @@ namespace irods::policy_composition::policy_engine
 			{seconds_since_epoch, 7}};
 	}; //namespace tokens
 
-	auto paramter_requires_query_substitution(const json& param) -> bool
+	inline auto paramter_requires_query_substitution(const json& param) -> bool
 	{
 		if (param.is_string()) {
 			return param.get<std::string>().find(tokens::query_substitution) != std::string::npos;
@@ -52,7 +52,7 @@ namespace irods::policy_composition::policy_engine
 
 	} // paramter_requires_query_substitution
 
-	auto split_logical_path(rsComm_t& comm, const std::string& lp) -> std::tuple<std::string, std::string>
+	inline auto split_logical_path(rsComm_t& comm, const std::string& lp) -> std::tuple<std::string, std::string>
 	{
 		fs::path p{lp};
 		if (fsvr::is_data_object(comm, p)) {
@@ -68,7 +68,7 @@ namespace irods::policy_composition::policy_engine
 
 	} // split_logical_path
 
-	auto compute_leaf_bundle(const std::string& resc_name)
+	inline auto compute_leaf_bundle(const std::string& resc_name)
 	{
 		std::string leaf_id_str;
 
@@ -102,7 +102,7 @@ namespace irods::policy_composition::policy_engine
 	} // compute_leaf_bundle
 
 	//TODO :: possibly need to return an error
-	void parse_and_replace_query_string_tokens(std::string& query_string, const std::vector<std::string>& values)
+	inline void parse_and_replace_query_string_tokens(std::string& query_string, const std::vector<std::string>& values)
 	{
 		const std::string prefix{"IRODS_TOKEN_"};
 		const std::string suffix{"_END_TOKEN"};
@@ -174,7 +174,7 @@ namespace irods::policy_composition::policy_engine
 
 	} // perform_query_substitution
 
-	void replace_query_string_token(std::string& query_string, const std::string& token, const std::string& value)
+	inline void replace_query_string_token(std::string& query_string, const std::string& token, const std::string& value)
 	{
 		std::string tmp_val{value};
 		if (tokens::source_leaf_bundle == token || tokens::destination_leaf_bundle == token) {
@@ -201,7 +201,7 @@ namespace irods::policy_composition::policy_engine
 		replace_query_string_token(query_string, token, value_string);
 	} // replace_query_string_tokens
 
-	void replace_positional_tokens(std::string& str, const std::vector<std::string>& results)
+	inline void replace_positional_tokens(std::string& str, const std::vector<std::string>& results)
 	{
 		for (auto i = 0; i < results.size(); ++i) {
 			std::string::size_type pos{0};

@@ -222,7 +222,7 @@ namespace irods::policy_composition::policy_engine
 
 	} // namespace
 
-	plugin_pointer_type make(
+	inline plugin_pointer_type make(
 		const std::string& _plugin_name,
 		const std::string& _policy_name,
 		const std::string& _usage_text,
