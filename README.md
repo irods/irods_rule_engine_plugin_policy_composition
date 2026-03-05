@@ -55,35 +55,35 @@ A conditional describes a set of conditions which must be met in order to invoke
 
 An example might be:
 ```json
-"conditional" : {
-    "logical_path" : "/tempZone/home/*",
-    "metadata_applied" : {
-        "attribute" : "foo*",
-        "value" : "bar*",
-        "units" : "baz*",
-        "entity_type" : "data_object"
+"conditional": {
+    "logical_path": "/tempZone/home/*",
+    "metadata_applied": {
+        "attribute": "foo*",
+        "value": "bar*",
+        "units": "baz*",
+        "entity_type": "data_object"
     }
 }
 ```
 
 An example for matching metadata in a logical path used to invoke an indexing event:
 ```json
-"conditional" : {
-    "logical_path" : "/tempZone/home/*",
-    "metadata_exists" : {
-        "recursive" : "true",
-        "attribute" : "irods::indexing::index",
-        "value" : "elasticsearch::full_text",
-        "entity_type" : "data_object"
+"conditional": {
+    "logical_path": "/tempZone/home/*",
+    "metadata_exists": {
+        "recursive": "true",
+        "attribute": "irods::indexing::index",
+        "value": "elasticsearch::full_text",
+        "entity_type": "data_object"
     }
 }
 ```
 
 An example matching data objects put into a destination root resource:
 ```json
-"conditional" : {
-    "logical_path" : "/tempZone/home/*",
-    "destination_resource " : "dest_resc_*"
+"conditional": {
+    "logical_path": "/tempZone/home/*",
+    "destination_resource ": "dest_resc_*"
 }
 ```
 
@@ -108,12 +108,13 @@ For a data-object-modified example where data is ingested: `"events" : ["create"
 `"policy_to_invoke"` is a JSON string which is the name of the policy to invoke.  Following the policy is a `"configuration"` object which contains any specific information related to that given policy.
 
 An example for data replication:
-```
-"policy_to_invoke" : "irods_policy_data_replication",
-"configuration" : {
-    "source_to_destination_map" : {
-        "edge_resource_0" : ["long_term_resource_0"],
-        "edge_resource_1" : ["long_term_resource_1"],
+```json
+"policy_to_invoke": "irods_policy_data_replication",
+"configuration": {
+    "source_to_destination_map": {
+        "edge_resource_0": ["long_term_resource_0"],
+        "edge_resource_1": ["long_term_resource_1"]
+    }
 }
 ```
 
@@ -138,29 +139,58 @@ The data object modified event handler captures all variables within the `dataOb
 
 ```json
 {
-"comm":{
-    "auth_scheme":"native","client_addr":"X.X.X.X","proxy_auth_info_auth_flag":"5","proxy_auth_info_auth_scheme":"",
-    "proxy_auth_info_auth_str":"","proxy_auth_info_flag":"0","proxy_auth_info_host":"","proxy_auth_info_ppid":"0",
-    "proxy_rods_zone":"tempZone","proxy_sys_uid":"0","proxy_user_name":"rods","proxy_user_other_info_user_comments":"",
-    "proxy_user_other_info_user_create":"","proxy_user_other_info_user_info":"","proxy_user_other_info_user_modify":"",
-    "proxy_user_type":"","user_auth_info_auth_flag":"5","user_auth_info_auth_scheme":"","user_auth_info_auth_str":"",
-    "user_auth_info_flag":"0","user_auth_info_host":"","user_auth_info_ppid":"0","user_rods_zone":"tempZone",
-    "user_sys_uid":"0","user_user_name":"rods","user_user_other_info_user_comments":"","user_user_other_info_user_create":"",
-    "user_user_other_info_user_info":"","user_user_other_info_user_modify":"","user_user_type":""
+    "comm": {
+        "auth_scheme": "native",
+        "client_addr": "X.X.X.X",
+        "proxy_auth_info_auth_flag": "5",
+        "proxy_auth_info_auth_scheme": "",
+        "proxy_auth_info_auth_str": "",
+        "proxy_auth_info_flag": "0",
+        "proxy_auth_info_host": "",
+        "proxy_auth_info_ppid": "0",
+        "proxy_rods_zone": "tempZone",
+        "proxy_sys_uid": "0",
+        "proxy_user_name": "rods",
+        "proxy_user_other_info_user_comments": "",
+        "proxy_user_other_info_user_create": "",
+        "proxy_user_other_info_user_info": "",
+        "proxy_user_other_info_user_modify": "",
+        "proxy_user_type": "",
+        "user_auth_info_auth_flag": "5",
+        "user_auth_info_auth_scheme": "",
+        "user_auth_info_auth_str": "",
+        "user_auth_info_flag": "0",
+        "user_auth_info_host": "",
+        "user_auth_info_ppid": "0",
+        "user_rods_zone": "tempZone",
+        "user_sys_uid": "0",
+        "user_user_name": "rods",
+        "user_user_other_info_user_comments": "",
+        "user_user_other_info_user_create": "",
+        "user_user_other_info_user_info": "",
+        "user_user_other_info_user_modify": "",
+        "user_user_type": ""
     },
-"cond_input":{
-    "dataIncluded":"","dataType":"generic","destRescName":"ufs0","noOpenFlag":"","openType":"1",
-    "recursiveOpr":"1", "resc_hier":"ufs0","selObjType":"dataObj","translatedPath":""
+    "cond_input": {
+        "dataIncluded": "",
+        "dataType": "generic",
+        "destRescName": "ufs0",
+        "noOpenFlag": "",
+        "openType": "1",
+        "recursiveOpr": "1",
+        "resc_hier": "ufs0",
+        "selObjType": "dataObj",
+        "translatedPath": ""
     },
-"create_mode":"33204",
-"data_size":"1",
-"event":"CREATE",
-"num_threads":"0",
-"obj_path":"/tempZone/home/rods/test_put_gt_max_sql_rows/junk0083",
-"offset":"0",
-"open_flags":"2",
-"opr_type":"1",
-"policy_enforcement_point":"pep_api_data_obj_put_post"
+    "create_mode": "33204",
+    "data_size": "1",
+    "event": "CREATE",
+    "num_threads": "0",
+    "obj_path": "/tempZone/home/rods/test_put_gt_max_sql_rows/junk0083",
+    "offset": "0",
+    "open_flags": "2",
+    "opr_type": "1",
+    "policy_enforcement_point": "pep_api_data_obj_put_post"
 }
 ```
 
@@ -172,16 +202,16 @@ It provides a parameter object of the following form:
 
 ```json
 {
-    "metadata" : {
-        "operation"   : "",
-        "entity_type" : "",
-        "attribute"   : "",
-        "value"       : "",
-        "units"       : ""
+    "metadata": {
+        "operation": "",
+        "entity_type": "",
+        "attribute": "",
+        "value": "",
+        "units": ""
     },
-    "logical_path" : "",
-    "source_resource" : "",
-    "user_name" : ""
+    "logical_path": "",
+    "source_resource": "",
+    "user_name": ""
 }
 ```
 
@@ -217,13 +247,12 @@ The `irods_policy_query_processor` policy engine wraps the `query_processor` lib
 Example:
 
 ```json
-"query_string" : "SELECT USER_NAME, COLL_NAME, DATA_NAME, RESC_NAME WHERE COLL_NAME = '/tempZone/home/rods' AND DATA_NAME = 'test_put_file'",
-"query_limit" : 1,
-"query_type" : "general",
-"number_of_threads" : 1,
-"policy_to_invoke" : "irods_policy_testing_policy",
-"configuration" : {
-}
+"query_string": "SELECT USER_NAME, COLL_NAME, DATA_NAME, RESC_NAME WHERE COLL_NAME = '/tempZone/home/rods' AND DATA_NAME = 'test_put_file'",
+"query_limit": 1,
+"query_type": "general",
+"number_of_threads": 1,
+"policy_to_invoke": "irods_policy_testing_policy",
+"configuration": {}
 ```
 
 ### Data Replication
@@ -234,87 +263,120 @@ The `data_replication` policy engine will replicate data from a resource to a co
 
 Example:
 ```json
-           {
-                "instance_name": "irods_rule_engine_plugin-policy_engine-data_replication-instance",
-                "plugin_name": "irods_rule_engine_plugin-policy_engine-data_replication",
-                "plugin_specific_configuration": {
-                    "log_errors" : "true"
+{
+    "instance_name": "irods_rule_engine_plugin-policy_engine-data_replication-instance",
+    "plugin_name": "irods_rule_engine_plugin-policy_engine-data_replication",
+    "plugin_specific_configuration": {
+        "log_errors": "true"
+    }
+},
+{
+    "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
+    "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
+    "plugin_specific_configuration": {
+        "policies_to_invoke": [
+            {
+                "active_policy_clauses": [
+                    "post"
+                ],
+                "events": [
+                    "put",
+                    "create",
+                    "write",
+                    "registration"
+                ],
+                "policy_to_invoke": "irods_policy_data_replication",
+                "configuration": {
+                    "destination_resource": "AnotherResc"
                 }
-           },
-           {
-                "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
-                "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
-                "plugin_specific_configuration": {
-                    "policies_to_invoke" : [
-                        {
-                            "active_policy_clauses" : ["post"],
-                            "events" : ["put", "create", "write", "registration"],
-                            "policy_to_invoke"    : "irods_policy_data_replication",
-                            "configuration" : {
-                                "destination_resource" : "AnotherResc",                                
-                            }
-                        }
-                    ]
+            }
+        ]
+    }
+},
+{
+    "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
+    "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
+    "plugin_specific_configuration": {
+        "policies_to_invoke": [
+            {
+                "active_policy_clauses": [
+                    "post"
+                ],
+                "events": [
+                    "put",
+                    "create",
+                    "write",
+                    "registration"
+                ],
+                "policy_to_invoke": "irods_policy_data_replication",
+                "configuration": {
+                    "source_to_destination_map": {
+                        "source_resource_0": [
+                            "destination_resource_0",
+                            "destination_resource_1"
+                        ],
+                        "source_resource_1": [
+                            "destination_resource_2",
+                            "destination_resource_3"
+                        ]
+                    }
                 }
-           },
-           {
-                "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
-                "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
-                "plugin_specific_configuration": {
-                    "policies_to_invoke" : [
-                        {
-                            "active_policy_clauses" : ["post"],
-                            "events" : ["put", "create", "write", "registration"],
-                            "policy_to_invoke"    : "irods_policy_data_replication",
-                            "configuration" : {
-                                "source_to_destination_map" : {
-                                     "source_resource_0" : ["destination_resource_0", "destination_resource_1"],
-                                     "source_resource_1" : ["destination_resource_2", "destination_resource_3"]                                     
-                                }
-                            }
-                        }
-                    ]
-                }
-           }               
+            }
+        ]
+    }
+}
 ```
 
 #### Asynchronous Replication
 
 Example:
 ```json
-           {
-                "instance_name": "irods_rule_engine_plugin-policy_engine-data_replication-instance",
-                "plugin_name": "irods_rule_engine_plugin-policy_engine-data_replication",
-                "plugin_specific_configuration": {
-                    "log_errors" : "true"
-                }
-           },
-           {
-                "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
-                "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
-                "plugin_specific_configuration": {
-                    "policies_to_invoke" : [
-                        {
-                            "active_policy_clauses" : ["post"],
-                            "events" : ["put", "create", "write", "registration"],
-                            "policy_to_invoke" : "irods_policy_enqueue_rule",
-                            "parameters" : {
-                                "delay_conditions" : "<PLUSET>1s</PLUSET>",
-                                "policy_to_invoke" : "irods_policy_execute_rule",
-                                "parameters" : {
-                                    "policy_to_invoke"    : "irods_policy_data_replication",
-                                    "configuration" : {
-                                        "source_to_destination_map" : {
-                                            "source_resource_0" : ["destination_resource_0", "destination_resource_1"],
-                                            "source_resource_1" : ["destination_resource_2", "destination_resource_3"]
-                                        }
-                                    }
-                                }
+{
+    "instance_name": "irods_rule_engine_plugin-policy_engine-data_replication-instance",
+    "plugin_name": "irods_rule_engine_plugin-policy_engine-data_replication",
+    "plugin_specific_configuration": {
+        "log_errors": "true"
+    }
+},
+{
+    "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
+    "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
+    "plugin_specific_configuration": {
+        "policies_to_invoke": [
+            {
+                "active_policy_clauses": [
+                    "post"
+                ],
+                "events": [
+                    "put",
+                    "create",
+                    "write",
+                    "registration"
+                ],
+                "policy_to_invoke": "irods_policy_enqueue_rule",
+                "parameters": {
+                    "delay_conditions": "<PLUSET>1s</PLUSET>",
+                    "policy_to_invoke": "irods_policy_execute_rule",
+                    "parameters": {
+                        "policy_to_invoke": "irods_policy_data_replication",
+                        "configuration": {
+                            "source_to_destination_map": {
+                                "source_resource_0": [
+                                    "destination_resource_0",
+                                    "destination_resource_1"
+                                ],
+                                "source_resource_1": [
+                                    "destination_resource_2",
+                                    "destination_resource_3"
+                                ]
                             }
                         }
-                    ]
+                    }
                 }
-           }
+            }
+        ]
+    }
+}
 ```           
 
 ### Data Retention
@@ -324,65 +386,76 @@ The `data_retention` policy engine will either remove a given data object or tri
 #### Synchronous Data Retention
 
 ```json
+{
+    "instance_name": "irods_rule_engine_plugin-policy_engine-data_retention-instance",
+    "plugin_name": "irods_rule_engine_plugin-policy_engine-data_retention",
+    "plugin_specific_configuration": {
+        "log_errors": "true"
+    }
+},
+{
+    "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
+    "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
+    "plugin_specific_configuration": {
+        "policies_to_invoke": [
             {
-                "instance_name": "irods_rule_engine_plugin-policy_engine-data_retention-instance",
-                "plugin_name": "irods_rule_engine_plugin-policy_engine-data_retention",
-                "plugin_specific_configuration": {
-                    "log_errors" : "true"
-                }
-            },
-            {
-                "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
-                "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
-                "plugin_specific_configuration": {
-                    "policies_to_invoke" : [
-                        {
-                            "active_policy_clauses" : ["post"],
-                            "events" : ["replication"],
-                            "policy_to_invoke"    : "irods_policy_data_retention",
-                            "configuration" : {
-                                "mode" : "trim_single_replica"
-                            }
-                        }
-                    ]
+                "active_policy_clauses": [
+                    "post"
+                ],
+                "events": [
+                    "replication"
+                ],
+                "policy_to_invoke": "irods_policy_data_retention",
+                "configuration": {
+                    "mode": "trim_single_replica"
                 }
             }
+        ]
+    }
+}
 ```
 
 #### Asynchronous Data Retention
 
 ```json
+{
+    "instance_name": "irods_rule_engine_plugin-policy_engine-data_retention-instance",
+    "plugin_name": "irods_rule_engine_plugin-policy_engine-data_retention",
+    "plugin_specific_configuration": {
+        "log_errors": "true"
+    }
+},
+{
+    "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
+    "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
+    "plugin_specific_configuration": {
+        "policies_to_invoke": [
             {
-                "instance_name": "irods_rule_engine_plugin-policy_engine-data_retention-instance",
-                "plugin_name": "irods_rule_engine_plugin-policy_engine-data_retention",
-                "plugin_specific_configuration": {
-                    "log_errors" : "true"
-                }
-            },
-            {
-                "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
-                "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
-                "plugin_specific_configuration": {
-                    "policies_to_invoke" : [
-                        {
-                            "active_policy_clauses" : ["post"],
-                            "events" : ["replication"],
-                            "policy_to_invoke" : "irods_policy_enqueue_rule",
-                            "parameters" : {
-                                "delay_conditions" : "<PLUSET>1s</PLUSET>",                            
-                                "policy_to_invoke" : "irods_policy_execute_rule",
-                                "parameters" : {
-                                    "policy_to_invoke"    : "irods_policy_data_retention",
-                                    "configuration" : {
-                                        "mode" : "trim_single_replica",
-                                        "resource_white_list" : ["demoResc", "AnotherResc"]
-                                    }
-                                }
-                            }                            
+                "active_policy_clauses": [
+                    "post"
+                ],
+                "events": [
+                    "replication"
+                ],
+                "policy_to_invoke": "irods_policy_enqueue_rule",
+                "parameters": {
+                    "delay_conditions": "<PLUSET>1s</PLUSET>",
+                    "policy_to_invoke": "irods_policy_execute_rule",
+                    "parameters": {
+                        "policy_to_invoke": "irods_policy_data_retention",
+                        "configuration": {
+                            "mode": "trim_single_replica",
+                            "resource_white_list": [
+                                "demoResc",
+                                "AnotherResc"
+                            ]
                         }
-                    ]
+                    }
                 }
             }
+        ]
+    }
+}
 ```
 
 ### Data Verification
@@ -399,30 +472,34 @@ The `"checksum"` configuration will compute a checksum of the replica at rest an
 
 Example:
 ```json
+{
+    "instance_name": "irods_rule_engine_plugin-policy_engine-data_verification-instance",
+    "plugin_name": "irods_rule_engine_plugin-policy_engine-data_verification",
+    "plugin_specific_configuration": {
+        "log_errors": "true"
+    }
+}
+{
+    "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
+    "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
+    "plugin_specific_configuration": {
+        "policies_to_invoke": [
             {
-                "instance_name": "irods_rule_engine_plugin-policy_engine-data_verification-instance",
-                "plugin_name": "irods_rule_engine_plugin-policy_engine-data_verification",
-                "plugin_specific_configuration": {
-                    "log_errors" : "true"
-                }
-            },
-            {
-                "instance_name": "irods_rule_engine_plugin-event_handler-data_object_modified-instance",
-                "plugin_name": "irods_rule_engine_plugin-event_handler-data_object_modified",
-                "plugin_specific_configuration": {
-                    "policies_to_invoke" : [
-                        {
-                            "active_policy_clauses" : ["post"],
-                            "events" : ["replication"],
-                            "policy_to_invoke"    : "irods_policy_data_verification",
-                            "configuration" : {
-                                "log_errors" : "true",
-                                "attribute"  : "event_handler_attribute",
-                            }
-                        }
-                    ]
+                "active_policy_clauses": [
+                    "post"
+                ],
+                "events": [
+                    "replication"
+                ],
+                "policy_to_invoke": "irods_policy_data_verification",
+                "configuration": {
+                    "log_errors": "true",
+                    "attribute": "event_handler_attribute"
                 }
             }
+        ]
+    }
+}
 ```
 
 ### Checksum Verification
@@ -433,36 +510,33 @@ Data integrity may be verified directly with a computation of the replica's chec
 Within the server configuration:
 
 ```json
-
-            {
-                "instance_name": "irods_rule_engine_plugin-policy_engine-verify_checksum-instance",
-                "plugin_name": "irods_rule_engine_plugin-policy_engine-verify_checksum",
-                "plugin_specific_configuration": {
-                }
-            },
-
+{
+    "instance_name": "irods_rule_engine_plugin-policy_engine-verify_checksum-instance",
+    "plugin_name": "irods_rule_engine_plugin-policy_engine-verify_checksum",
+    "plugin_specific_configuration": {}
+}
 ```
 
 An implementation of periodic checksum verification:
 
 ```json
 {
-    "policy_to_invoke" : "irods_policy_enqueue_rule",
-    "parameters" : {
-        "delay_conditions" : "<PLUSET>1s</PLUSET><EF>REPEAT FOR EVER</EF><INST_NAME>irods_rule_engine_plugin-cpp_default_policy-instance</INST_NAME>",
-        "policy_to_invoke" : "irods_policy_execute_rule",
-        "parameters" : {
-            "policy_to_invoke"    : "irods_policy_query_processor",
-            "parameters" : {
-                "query_string"  : "SELECT USER_NAME, COLL_NAME, DATA_NAME, RESC_NAME WHERE RESC_NAME like 'tier_%'",
-                "query_limit"   : 0,
-                "query_type"    : "general",
-                "number_of_threads" : 1,
-                "policies_to_invoke" : [
+    "policy_to_invoke": "irods_policy_enqueue_rule",
+    "parameters": {
+        "delay_conditions": "<PLUSET>1s</PLUSET><EF>REPEAT FOR EVER</EF><INST_NAME>irods_rule_engine_plugin-cpp_default_policy-instance</INST_NAME>",
+        "policy_to_invoke": "irods_policy_execute_rule",
+        "parameters": {
+            "policy_to_invoke": "irods_policy_query_processor",
+            "parameters": {
+                "query_string": "SELECT USER_NAME, COLL_NAME, DATA_NAME, RESC_NAME WHERE RESC_NAME like 'tier_%'",
+                "query_limit": 0,
+                "query_type": "general",
+                "number_of_threads": 1,
+                "policies_to_invoke": [
                     {
-                        "policy_to_invoke" : "irods_policy_verify_checksum",
-                        "configuration" : {
-                            "log_errors" : "true"
+                        "policy_to_invoke": "irods_policy_verify_checksum",
+                        "configuration": {
+                            "log_errors": "true"
                         }
                     }
                 ]
@@ -479,28 +553,28 @@ Data integrity may be verified directly with a computation of the replica's chec
 
 ### Example ConfigurationW
 ```json
-           {
-                "instance_name": "irods_rule_engine_plugin-policy_engine-filesystem_usage-instance",
-                "plugin_name": "irods_rule_engine_plugin-policy_engine-filesystem_usage",
-                "plugin_specific_configuration": {
-                    "log_errors" : "true"
-                }
-           }
+{
+    "instance_name": "irods_rule_engine_plugin-policy_engine-filesystem_usage-instance",
+    "plugin_name": "irods_rule_engine_plugin-policy_engine-filesystem_usage",
+    "plugin_specific_configuration": {
+        "log_errors": "true"
+    }
+}
 ```
 
 An implementation of a periodic rule to invoke the policy:
 
 ```json
 {
-    "policy_to_invoke" : "irods_policy_enqueue_rule",
-    "parameters" : {
-        "comment"          : "Set the PLUSET value to the interval desired to run the rule",
-        "delay_conditions" : "<PLUSET>10s</PLUSET><EF>REPEAT FOR EVER</EF><INST_NAME>irods_rule_engine_plugin-cpp_default_policy-instance</INST_NAME>",
-        "policy_to_invoke" : "irods_policy_execute_rule",
-        "parameters" : {
-            "policy_to_invoke"    : "irods_policy_filesystem_usage",
-            "parameters" : {
-                "source_resource" : "demoResc"
+    "policy_to_invoke": "irods_policy_enqueue_rule",
+    "parameters": {
+        "comment": "Set the PLUSET value to the interval desired to run the rule",
+        "delay_conditions": "<PLUSET>10s</PLUSET><EF>REPEAT FOR EVER</EF><INST_NAME>irods_rule_engine_plugin-cpp_default_policy-instance</INST_NAME>",
+        "policy_to_invoke": "irods_policy_execute_rule",
+        "parameters": {
+            "policy_to_invoke": "irods_policy_filesystem_usage",
+            "parameters": {
+                "source_resource": "demoResc"
             }
         }
     }
