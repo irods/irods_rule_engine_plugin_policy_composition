@@ -134,8 +134,8 @@ namespace
 
 const char usage[] = R"(
 {
-    "id": "file:///var/lib/irods/configuration_schemas/v3/policy_engine_usage.json",
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$id": "https://schemas.irods.org/policy-composition/testing_policy.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "description": "This is a test, this is only a test."
         "input_interfaces": [
             {
