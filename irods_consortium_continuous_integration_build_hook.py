@@ -49,9 +49,12 @@ def copy_output_packages(build_directory, output_root_directory):
         irods_python_ci_utilities.append_os_specific_directory(output_root_directory),
         lambda s:s.endswith(irods_python_ci_utilities.get_package_suffix()))
 
-def main(build_directory, output_root_directory, irods_packages_root_directory, externals_directory, debug_build, enable_asan, enable_ubsan, include_test_executables):
+def main(build_directory, output_root_directory, irods_packages_root_directory, externals_directory, debug_build, enable_asan, enable_ubsan, include_test_executables, irods_package_version):
     install_building_dependencies(externals_directory)
-    if irods_packages_root_directory:
+    if irods_package_version is not None:
+        irods_python_ci_utilities.install_irods_packages_repository()
+        irods_python_ci_utilities.install_released_irods_dev_and_runtime_packages(irods_package_version)
+    elif irods_packages_root_directory:
         irods_python_ci_utilities.install_irods_dev_and_runtime_packages(irods_packages_root_directory)
     build_directory = os.path.abspath(build_directory or tempfile.mkdtemp(prefix='irods_policy_composition_plugin_build_directory'))
     additional_cmake_args = []
@@ -80,6 +83,7 @@ if __name__ == '__main__':
     parser.add_option('--enable_address_sanitizer', dest='enable_asan', action='store_true')
     parser.add_option('--enable_undefined_behavior_sanitizer', dest='enable_ubsan', action='store_true')
     parser.add_option('--exclude_test_executables', dest='include_test_executables', action='store_false', default=True)
+    parser.add_option('--irods_package_version')
     options, _ = parser.parse_args()
 
     main(options.build_directory,
@@ -89,5 +93,5 @@ if __name__ == '__main__':
          options.debug_build,
          options.enable_asan,
          options.enable_ubsan,
-         options.include_test_executables)
-
+         options.include_test_executables,
+         options.irods_package_version)
