@@ -1,6 +1,5 @@
-
-#include <string>
-#include <boost/lexical_cast.hpp>
+#ifndef IRODS_POLICY_COMPOSITION_PARAMETER_SUBSTITUTION_HPP
+#define IRODS_POLICY_COMPOSITION_PARAMETER_SUBSTITUTION_HPP
 
 #include <irods/policy_composition_framework_logging_category.hpp>
 #include <irods/irods_resource_manager.hpp>
@@ -8,6 +7,10 @@
 
 #define IRODS_FILESYSTEM_ENABLE_SERVER_SIDE_API
 #include <irods/filesystem.hpp>
+
+#include <boost/lexical_cast.hpp>
+
+#include <string>
 
 extern irods::resource_manager resc_mgr;
 
@@ -220,3 +223,5 @@ namespace irods::policy_composition::policy_engine
 	} // replace_positional_token
 
 } // namespace irods::policy_composition::policy_engine
+
+#endif // IRODS_POLICY_COMPOSITION_PARAMETER_SUBSTITUTION_HPP

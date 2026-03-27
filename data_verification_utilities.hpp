@@ -1,3 +1,5 @@
+#ifndef IRODS_POLICY_COMPOSITION_DATA_VERIFICATION_UTILITIES_HPP
+#define IRODS_POLICY_COMPOSITION_DATA_VERIFICATION_UTILITIES_HPP
 
 #include <irods/rcConnect.h>
 #include <string>
@@ -18,3 +20,5 @@ namespace irods
 	compute_checksum_for_resource(rsComm_t* _comm, const std::string& _logical_path, const std::string& _resource_name);
 
 } // namespace irods
+
+#endif // IRODS_POLICY_COMPOSITION_DATA_VERIFICATION_UTILITIES_HPP
