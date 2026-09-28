@@ -1111,11 +1111,9 @@ class TestEventHandlerObjectModified(ResourceBase, unittest.TestCase):
 
     def test_event_handler_register(self):
         with session.make_session_for_existing_admin() as admin_session:
-            filename = 'test_put_file'
-            contents = 'hello, world!'
-            lib.create_local_testfile(filename)
+            physical_path = '/tmp/test_event_handler_register'
+            lib.create_local_testfile(physical_path)
 
-            physical_path = os.path.join(os.getcwd(), filename)
             with self.event_handler_configured():
                 try:
                     admin_session.assert_icommand('ireg ' + physical_path + ' /tempZone/home/rods/regfile')
@@ -1127,11 +1125,9 @@ class TestEventHandlerObjectModified(ResourceBase, unittest.TestCase):
 
     def test_event_handler_unregister(self):
         with session.make_session_for_existing_admin() as admin_session:
-            filename = 'test_put_file'
-            contents = 'hello, world!'
-            lib.create_local_testfile(filename)
+            physical_path = '/tmp/test_event_handler_unregister'
+            lib.create_local_testfile(physical_path)
 
-            physical_path = os.path.join(os.getcwd(), filename)
             with self.event_handler_configured():
                 try:
                     admin_session.assert_icommand('ireg ' + physical_path + ' /tempZone/home/rods/regfile')
@@ -1280,7 +1276,7 @@ class TestEventHandlerCollectionModified(ResourceBase, unittest.TestCase):
         with session.make_session_for_existing_admin() as admin_session:
             try:
                 with self.event_handler_configured():
-                    local_dir = os.path.join(os.getcwd(), 'test_event_handler_collection_register_dir')
+                    local_dir = '/tmp/test_event_handler_collection_register_dir'
                     if not os.path.isdir(local_dir):
                         lib.make_large_local_tmp_dir(local_dir, 10, 100)
                     collection_name = '/tempZone/home/rods/test_collection'
