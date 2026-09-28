@@ -9,7 +9,6 @@ import irods_python_ci_utilities
 def install_building_dependencies(externals_directory):
     externals_list = [
         'irods-externals-boost1.81.0-2',
-        'irods-externals-nanodbc2.13.0-3',
         'irods-externals-clang16.0.6-0'
     ]
 
