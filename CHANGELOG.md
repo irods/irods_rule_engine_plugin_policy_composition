@@ -11,6 +11,14 @@ and this project **only** adheres to the following _(as defined at [Semantic Ver
 > - MINOR version when you add functionality in a backward compatible manner
 > - PATCH version when you make backward compatible bug fixes
 
+## [0.2.0] - 2026-10-14
+
+This release adds support for Ubuntu 26.04.
+
+### Changed
+
+- Remove installation of unused nanodbc package dependency from build hook (#47).
+
 ## [0.1.0] - 2026-04-07
 
 This is the first release of the Policy Composition rule engine plugins.
